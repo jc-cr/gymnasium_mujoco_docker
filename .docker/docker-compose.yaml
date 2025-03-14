@@ -1,0 +1,27 @@
+services:
+  mujoco:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../:/container_workspace
+    working_dir: /container_workspace
+    shm_size: '4gb'  # Increased shared memory
+    ipc: host  # Added IPC configuration for better shared memory handling
+    environment:
+      - MUJOCO_GL=osmesa  # Use software rendering for headless systems without GPU
+      - PYTHONUNBUFFERED=1
+      - DISPLAY=${DISPLAY:-:0}  # For potential X11 forwarding if needed
+    ports:
+      - "6006:6006"  # For TensorBoard
+    command: python train.py
+    # Only include GPU settings if GPU is available
+    # If you have a GPU and appropriate drivers, uncomment the next section:
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           capabilities: [compute, utility, graphics]
+    #           count: all
