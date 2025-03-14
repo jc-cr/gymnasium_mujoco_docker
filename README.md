@@ -48,6 +48,14 @@ cd .docker
 docker-compose run mujoco python3 train.py --timesteps 2000000 --num-envs 4
 ```
 
+To view the training progress use tensorboard in a new terminal:
+
+```bash
+cd .docker
+docker-compose run -p 6006:6006 mujoco python -m tensorboard.main --logdir=./logs --bind_all
+```
+
+
 ### Evaluating the Trained Agent
 
 After training, you can evaluate the agent:
