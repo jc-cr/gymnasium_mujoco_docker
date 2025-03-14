@@ -5,6 +5,7 @@ FROM python:3.12-slim-bookworm
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV MPLCONFIGDIR=/tmp/matplotlib
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -34,7 +35,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Install Python dependencies
 COPY req.txt /tmp/req.txt
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r /tmp/req.txt
+    pip install --no-cache-dir -r /tmp/req.txt && \
+    pip install --no-cache-dir "imageio[ffmpeg]" "imageio[pyav]"
 
 # Setup environment variables for MuJoCo
 ENV MUJOCO_GL=osmesa

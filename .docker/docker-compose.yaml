@@ -15,7 +15,7 @@ services:
       - DISPLAY=${DISPLAY:-:0}  # For potential X11 forwarding if needed
     ports:
       - "6006:6006"  # For TensorBoard
-    command: python train.py
+    command: python train.py 
     # Only include GPU settings if GPU is available
     # If you have a GPU and appropriate drivers, uncomment the next section:
     # deploy:

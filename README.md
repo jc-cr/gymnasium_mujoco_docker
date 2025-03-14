@@ -22,7 +22,6 @@ A Docker-based environment for training and evaluating the Inverted Pendulum MuJ
 
 - Docker
 - Docker Compose
-- [NVIDIA Container Toolkit](https://github.com/NVIDIA/nvidia-docker) (for GPU support, optional)
 
 ## Quick Start
 
@@ -55,7 +54,7 @@ After training, you can evaluate the agent:
 
 ```bash
 cd .docker
-docker-compose run mujoco python3 eval.py --model-path ./models/best/best_model.zip --num-episodes 10
+docker-compose run mujoco python eval.py --model-path ./models/best/best_model.zip --num-episodes 2 --render --save-video
 ```
 
 
@@ -77,23 +76,6 @@ The `eval.py` script accepts the following command-line arguments:
 - `--num-episodes`: Number of episodes to evaluate (default: 10)
 - `--render`: Render the environment during evaluation
 - `--save-video`: Save a video of the evaluation
-
-## Using GPU Acceleration
-
-This Docker setup is configured to work on machines without GPU by default. If you have an NVIDIA GPU and want to use it for training:
-
-1. Install the [NVIDIA Container Toolkit](https://github.com/NVIDIA/nvidia-docker)
-2. In `.docker/docker-compose.yaml`, uncomment the `deploy` section
-3. In `.docker/Dockerfile`, replace `FROM ubuntu:22.04` with:
-   ```dockerfile
-   FROM nvidia/cuda:12.8.1-devel-ubuntu22.04
-   ```
-4. Change the `MUJOCO_GL` environment variable from `osmesa` to `egl` in both Dockerfile and docker-compose.yaml
-5. Rebuild the container:
-   ```bash
-   cd .docker
-   docker-compose build
-   ```
 
 ## Environment Details
 
